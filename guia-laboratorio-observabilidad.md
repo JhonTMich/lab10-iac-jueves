@@ -139,7 +139,7 @@ Crea un nuevo dashboard: **Dashboards → New → New dashboard → Add visualiz
 2. En el editor de consulta, escribe esta expresión PromQL:
 
    ```
-   sum(rate(container_cpu_usage_seconds_total{name="lab-backend"}[1m])) * 100
+   sum(rate(container_cpu_usage_seconds_total{id="/docker"}[1m])) * 100
    ```
 
    Devuelve el % de CPU que consume el contenedor del backend (100 ≈ un núcleo completo).
@@ -165,7 +165,7 @@ Unidad **Percent (0–100)**, título *"CPU del host (%)"*. Este panel represent
 3. En el editor, usa el filtro por etiqueta:
 
    ```
-   {tier="application"} | json
+      {tier="application"} | json
    ```
 
    - `tier="application"` trae solo los logs del backend y del frontend.
@@ -204,7 +204,7 @@ Usaremos las **alarmas de Grafana** (Grafana Alerting).
 3. **Define query and alert condition:**
    - Query **A**, fuente **Prometheus**:
      ```
-     sum(rate(container_cpu_usage_seconds_total{name="lab-backend"}[1m])) * 100
+     sum(rate(container_cpu_usage_seconds_total{id="/docker"}[1m])) * 100
      ```
    - En la sección de condición, Grafana añade por defecto una expresión **Reduce** (función `Last`) y una expresión **Threshold**. En el **Threshold**, configura **IS ABOVE `50`**. Esa es la condición de alerta.
 4. **Evaluation behavior:**
